@@ -2,7 +2,6 @@
 /*
     -> Del ejercicio 18
 */
-include "ejercicio_17.php";
 include "ejercicio_18.php";
 
 $auto1 = new Auto("Chevrolet", "Verde");

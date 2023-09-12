@@ -21,6 +21,8 @@
 
     Alumno: Julian Fernandez
 */
+include "ejercicio_17.php"; // Es la clase de Auto
+
 class Garage {
 
     private $_razonSocial;
