@@ -60,7 +60,8 @@ class Garage {
     }
 
     public function Remove($auto){
-        if ($this->Equals($auto)){
+        $indexAuto = array_search($auto, $this->_autos);
+        /* if ($this->Equals($auto)){
             foreach ($this->_autos as $i => $value) {
                 if ($auto === $value){
                     unset($this->_autos[$i]);
@@ -69,9 +70,17 @@ class Garage {
                     break;
                 }
             }
-        } else {
+        } */
+        if ($indexAuto){
+            unset($this->_autos[$indexAuto]);
+            $this->_autos = array_values($this->_autos);
+        }
+        else {
             echo "El auto no se encuentra en el garage";
         }
+        /*
+        También se puede hacer con array_filter() -> Retorna un nuevo array con las coincidencias
+        */
     }
 
 }
