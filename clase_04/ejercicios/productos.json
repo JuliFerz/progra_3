@@ -1,0 +1,26 @@
+[
+  {
+    "_id": 6975,
+    "_ean": 123456,
+    "_nombre": "Celular",
+    "_tipo": "Smartphone",
+    "_stock": 3,
+    "_precio": 650000
+  },
+  {
+    "_id": 367,
+    "_ean": 654321,
+    "_nombre": "Celular",
+    "_tipo": "Smartphone",
+    "_stock": 123,
+    "_precio": 250000
+  },
+  {
+    "_id": 5371,
+    "_ean": 12374,
+    "_nombre": "Celular",
+    "_tipo": "Smartphone",
+    "_stock": 3,
+    "_precio": 254897
+  }
+]

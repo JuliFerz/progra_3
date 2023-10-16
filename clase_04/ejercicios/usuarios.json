@@ -1,0 +1,34 @@
+[
+  {
+    "_id": 6047,
+    "_nombre": "Julian",
+    "_clave": "juli2",
+    "_mail": "mail@mail.com",
+    "_fechaCreacion": "2023-10-10_08:10:13",
+    "_fotoUsuario": "6047_piano.jpg"
+  },
+  {
+    "_id": 7409,
+    "_nombre": "Jorge",
+    "_clave": "aaabbbccc",
+    "_mail": "testtt@mail.com",
+    "_fechaCreacion": "2023-10-10_08:10:17",
+    "_fotoUsuario": "7409_piano.jpg"
+  },
+  {
+    "_id": 4095,
+    "_nombre": "Test",
+    "_clave": "123abc",
+    "_mail": "test@mail.com",
+    "_fechaCreacion": "2023-10-10_09:10:06",
+    "_fotoUsuario": "4095_piano.jpg"
+  },
+  {
+    "_id": 6302,
+    "_nombre": "TestTest",
+    "_clave": "123abc",
+    "_mail": "test@mail.com",
+    "_fechaCreacion": "2023-10-10_14:10:24",
+    "_fotoUsuario": "6302_piano.jpg"
+  }
+]
