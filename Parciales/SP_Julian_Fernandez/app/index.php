@@ -22,7 +22,7 @@ require_once './controllers/ReservaController.php';
 // require_once './controllers/MesaController.php';
 // require_once './controllers/EncuestaController.php';
 require_once './controllers/AuthController.php';
-// require_once './controllers/CSVController.php';
+require_once './controllers/CSVController.php';
 
 require_once './middlewares/CamposClienteMW.php';
 require_once './middlewares/CamposReservaMW.php';
@@ -375,10 +375,10 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
 //         ->add(\AuthMiddleware::class . ':verificarToken');
 // });
 
-// $app->group('/csv', function (RouteCollectorProxy $group) {
-//     $group->get('/descargar', \CSVController::class . ':DescargarEntidad');
-//     $group->post('/cargar', \CSVController::class . ':CargarEntidad');
-// });
+$app->group('/csv', function (RouteCollectorProxy $group) {
+    $group->get('/descargar', \CSVController::class . ':DescargarEntidad');
+    $group->post('/cargar', \CSVController::class . ':CargarEntidad');
+});
 
 $app->run();
 ?>

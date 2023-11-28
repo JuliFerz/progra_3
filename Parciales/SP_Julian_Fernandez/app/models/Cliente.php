@@ -51,14 +51,15 @@ class Cliente /* implements JsonSerializable */ {
 
         return $consulta->fetchObject('Cliente');
     }
-    // public static function obtenerTodosCSV()
-    // {
-    //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
-    //     $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM clientes");
-    //     $consulta->execute();
 
-    //     return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    // }
+    public static function obtenerTodosCSV()
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM clientes");
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public static function obtenerClientePorId($id)
     {
@@ -176,31 +177,36 @@ class Cliente /* implements JsonSerializable */ {
         $consulta->execute();
     }
 
-    // public static function DescargaUsuarios($usuarios){
-    //     $fileController = new FileController('public/csv/');
-    //     $file = $fileController->abrirArchivo('usuarios', 'csv');
-    //     foreach ($usuarios as $usuario) {
-    //         fputcsv($file, $usuario);
-    //     }
-    //     fclose($file);
-    // }
+    public static function DescargarClientes($usuarios){
+        $file = fopen('php://output', 'w');
+        $headers = array_keys($usuarios[0]);
+        fputcsv($file, $headers);
+        foreach ($usuarios as $usuario) {
+            fputcsv($file, $usuario);
+        }
+        fclose($file);
+    }
 
-    // public static function CargarUsuarios($archivo){
-    //     $file = fopen($archivo, 'r');
-    //     while (($data = fgetcsv($file)) !== FALSE) {
-    //         $usuario = new Usuario();
-    //         $usuario->setUsuario($data[0]);
-    //         $usuario->setClave(password_hash($data[1], PASSWORD_DEFAULT));
-    //         $usuario->setNombre($data[2]);
-    //         $usuario->setApellido($data[3]);
-    //         $usuario->setCorreo($data[4]);
-    //         $usuario->setIdSector((int)$data[5]);
-    //         $usuario->setPrioridad((int)$data[6]);
-    //         $usuario->setEstado(1);
-    //         $usuario->crearUsuario();
-    //     }
-    //     fclose($file);
-    // }
+    public static function CargarUsuarios($archivo){
+        $file = fopen($archivo, 'r');
+        while (($data = fgetcsv($file)) !== FALSE) {
+            $cliente = new Cliente();
+            $cliente->setUsuario($data[0]);
+            $cliente->setClave(password_hash($data[1], PASSWORD_DEFAULT));
+            $cliente->setNombre($data[2]);
+            $cliente->setApellido($data[3]);
+            $cliente->setEmail($data[4]);
+            $cliente->setTipoDoc($data[5]);
+            $cliente->setNroDoc($data[6]);
+            $cliente->setTipoCliente($data[7]);
+            $cliente->setPais($data[8]);
+            $cliente->setCiudad($data[9]);
+            $cliente->setTelefono($data[10]);
+            $cliente->setModalidadPago($data[11]);
+            $cliente->crearCliente();
+        }
+        fclose($file);
+    }
 
     public function EstablecerFotoCliente($datosImg, $id)
     {
