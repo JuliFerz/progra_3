@@ -10,11 +10,6 @@ class AuthController
     public function GenerarToken($request, $response, $args)
     {
         $usuarioDisponible = $request->getAttribute('usuarioDisponible');
-        // $datos = [
-        //     'id' => $usuarioDisponible->{'id'},
-        //     'usuario' => $usuarioDisponible->{'usuario'},
-        //     'tipo_cliente' => strtolower($usuarioDisponible->{'tipo_cliente'}),
-        // ];
         $datos = [
             'id' => $usuarioDisponible->{'id'},
             'usuario' => $usuarioDisponible->{'usuario'},
