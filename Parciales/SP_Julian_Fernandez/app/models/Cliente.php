@@ -112,17 +112,6 @@ class Cliente /* implements JsonSerializable */ {
 
     public function modificarCliente($externo = false)
     {
-        // if ($externo){
-        //     $this->_id = $this->{'id'};
-        //     $this->_usuario = $this->{'usuario'};
-        //     $this->_clave = $this->{'clave'};
-        //     $this->_nombre = $this->{'nombre'};
-        //     $this->_apellido = $this->{'apellido'};
-        //     $this->_correo = $this->{'correo'};
-        //     $this->_idSector = $this->{'id_sector'};
-        //     $this->_prioridad = $this->{'prioridad'};
-        //     $this->_estado = $this->{'estado'};
-        // }
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE clientes 
             SET usuario = :usuario,
@@ -177,7 +166,7 @@ class Cliente /* implements JsonSerializable */ {
         $consulta->execute();
     }
 
-    public static function DescargarClientes($usuarios){
+    public static function DescargarClientesCSV($usuarios){
         $file = fopen('php://output', 'w');
         $headers = array_keys($usuarios[0]);
         fputcsv($file, $headers);
@@ -187,7 +176,15 @@ class Cliente /* implements JsonSerializable */ {
         fclose($file);
     }
 
-    public static function CargarUsuarios($archivo){
+    public static function DescargarClientesJSON($usuarios){
+        $data = [];
+        foreach ($usuarios as $usuario) {
+            $data[] = $usuario;
+        }
+        return json_encode($data, JSON_PRETTY_PRINT);
+    }
+
+    public static function CargarUsuariosCSV($archivo){
         $file = fopen($archivo, 'r');
         while (($data = fgetcsv($file)) !== FALSE) {
             $cliente = new Cliente();
@@ -206,6 +203,26 @@ class Cliente /* implements JsonSerializable */ {
             $cliente->crearCliente();
         }
         fclose($file);
+    }
+
+    public static function CargarUsuariosJSON($archivo){
+        $listaClientes = json_decode($archivo, true);
+        foreach ($listaClientes as $data) {
+            $cliente = new Cliente();
+            $cliente->setUsuario($data['usuario']);
+            $cliente->setClave(password_hash($data['clave'], PASSWORD_DEFAULT));
+            $cliente->setNombre($data['nombre']);
+            $cliente->setApellido($data['apellido']);
+            $cliente->setEmail($data['email']);
+            $cliente->setTipoDoc($data['tipo_doc']);
+            $cliente->setNroDoc($data['nro_doc']);
+            $cliente->setTipoCliente($data['tipo_cliente']);
+            $cliente->setPais($data['pais']);
+            $cliente->setCiudad($data['ciudad']);
+            $cliente->setTelefono($data['telefono']);
+            $cliente->setModalidadPago($data['modalidad_pago']);
+            $cliente->crearCliente();
+        }
     }
 
     public function EstablecerFotoCliente($datosImg, $id)

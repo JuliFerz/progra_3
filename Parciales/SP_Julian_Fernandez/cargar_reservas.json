@@ -1,0 +1,22 @@
+[
+    {
+        "tipo_cliente": "INDI",
+        "nro_cliente": 100000,
+        "fecha_entrada": "22/10/2023",
+        "fecha_salida": "24/10/2023",
+        "tipo_habitacion": "suite",
+        "importe_total": 100000,
+        "modalidad_pago": "Credito",
+        "estado": "activa"
+    },
+    {
+        "tipo_cliente": "INDI",
+        "nro_cliente": 100000,
+        "fecha_entrada": "23/10/2023",
+        "fecha_salida": "24/10/2023",
+        "tipo_habitacion": "DOBLE",
+        "importe_total": 255000,
+        "modalidad_pago": "Efectivo",
+        "estado": "cancelada"
+    }
+]

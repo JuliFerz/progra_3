@@ -23,6 +23,7 @@ require_once './controllers/ReservaController.php';
 // require_once './controllers/EncuestaController.php';
 require_once './controllers/AuthController.php';
 require_once './controllers/CSVController.php';
+require_once './controllers/JSONController.php';
 
 require_once './middlewares/CamposClienteMW.php';
 require_once './middlewares/CamposReservaMW.php';
@@ -378,6 +379,11 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
 $app->group('/csv', function (RouteCollectorProxy $group) {
     $group->get('/descargar', \CSVController::class . ':DescargarEntidad');
     $group->post('/cargar', \CSVController::class . ':CargarEntidad');
+});
+
+$app->group('/json', function (RouteCollectorProxy $group) {
+    $group->get('/descargar', \JSONController::class . ':DescargarEntidad');
+    $group->post('/cargar', \JSONController::class . ':CargarEntidad');
 });
 
 $app->run();

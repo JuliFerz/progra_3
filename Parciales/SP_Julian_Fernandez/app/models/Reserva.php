@@ -38,14 +38,14 @@ class Reserva /* implements JsonSerializable */ {
     //     return $consulta->fetchObject('Reserva');
     // }
 
-    // public static function obtenerTodosCSV()
-    // {
-    //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
-    //     $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM reservas");
-    //     $consulta->execute();
+    public static function obtenerTodosCSV()
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM reservas");
+        $consulta->execute();
 
-    //     return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    // }
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public static function obtenerReserva($id)
     {
@@ -149,31 +149,56 @@ class Reserva /* implements JsonSerializable */ {
         $consulta->execute();
     }
 
-    // public static function DescargaUsuarios($usuarios){
-    //     $fileController = new FileController('public/csv/');
-    //     $file = $fileController->abrirArchivo('usuarios', 'csv');
-    //     foreach ($usuarios as $usuario) {
-    //         fputcsv($file, $usuario);
-    //     }
-    //     fclose($file);
-    // }
+    public static function DescargarReservasCSV($reservas){
+        $file = fopen('php://output', 'w');
+        $headers = array_keys($reservas[0]);
+        fputcsv($file, $headers);
+        foreach ($reservas as $reserva) {
+            fputcsv($file, $reserva);
+        }
+        fclose($file);
+    }
 
-    // public static function CargarUsuarios($archivo){
-    //     $file = fopen($archivo, 'r');
-    //     while (($data = fgetcsv($file)) !== FALSE) {
-    //         $usuario = new Usuario();
-    //         $usuario->setUsuario($data[0]);
-    //         $usuario->setClave(password_hash($data[1], PASSWORD_DEFAULT));
-    //         $usuario->setNombre($data[2]);
-    //         $usuario->setApellido($data[3]);
-    //         $usuario->setCorreo($data[4]);
-    //         $usuario->setIdSector((int)$data[5]);
-    //         $usuario->setPrioridad((int)$data[6]);
-    //         $usuario->setEstado(1);
-    //         $usuario->crearUsuario();
-    //     }
-    //     fclose($file);
-    // }
+    public static function DescargarReservasJSON($reservas){
+        $data = [];
+        foreach ($reservas as $reserva) {
+            $data[] = $reserva;
+        }
+        return json_encode($data, JSON_PRETTY_PRINT);
+    }
+
+    public static function CargarReservasCSV($archivo){
+        $file = fopen($archivo, 'r');
+        while (($data = fgetcsv($file)) !== FALSE) {
+            $reserva = new Reserva();
+            $reserva->setTipoCliente($data[0]);
+            $reserva->setNroCliente($data[1]);
+            $reserva->setFechaEntrada(new DateTime(date('d-m-Y', strtotime($data[2]))));
+            $reserva->setFechaSalida(new DateTime(date('d-m-Y', strtotime($data[3]))));
+            $reserva->setTipoHabitacion($data[4]);
+            $reserva->setImporteTotal($data[5]);
+            $reserva->setModalidadPago($data[6]);
+            $reserva->setEstado($data[7]);
+            $reserva->crearReserva();
+        }
+        fclose($file);
+    }
+
+    public static function CargarReservasJSON($archivo){
+        $listaClientes = json_decode($archivo, true);
+        foreach ($listaClientes as $data) {
+            $reserva = new Reserva();
+            $reserva->setTipoCliente($data['tipo_cliente']);
+            $reserva->setNroCliente($data['nro_cliente']);
+            $reserva->setFechaEntrada(new DateTime(date('d-m-Y', strtotime($data['fecha_entrada']))));
+            $reserva->setFechaSalida(new DateTime(date('d-m-Y', strtotime($data['fecha_salida']))));
+            $reserva->setTipoHabitacion($data['tipo_habitacion']);
+            $reserva->setImporteTotal($data['importe_total']);
+            $reserva->setModalidadPago($data['modalidad_pago']);
+            $reserva->setEstado($data['estado']);
+            $reserva->crearReserva();
+        }
+    }
 
     public function EstablecerFotoReserva($datosImg, $id)
     {

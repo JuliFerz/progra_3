@@ -4,12 +4,12 @@ require_once './interfaces/IApiUsable.php';
 require_once './models/Cliente.php';
 require_once './models/Reserva.php';
 
-class CSVController
+class JSONController
 {
     public function DescargarEntidad($request, $response, $args)
     {
         try {
-            $filename = '';
+            $data = [];
             $queryParams = $request->getQueryParams();
             $entidad = isset($queryParams['entidad'])
                 ? $queryParams['entidad']
@@ -21,21 +21,19 @@ class CSVController
 
             switch ($entidad) {
                 case 'clientes':
-                    $filename = 'clientes';
                     $bdClientes = Cliente::obtenerTodosCSV();
-                    Cliente::DescargarClientes($bdClientes);
+                    $data = Cliente::DescargarClientesJSON($bdClientes);
                     break;
                 case 'reservas':
-                    $filename = 'reservas';
                     $bdReservas = Reserva::obtenerTodosCSV();
-                    Reserva::DescargarReservas($bdReservas);
+                    $data = Reserva::DescargarReservasJSON($bdReservas);
                     break;
                 default:
                     throw new Exception('Entidad no contemplada.');
             }
 
-            $response = new \Slim\Psr7\Response();
-            return $response->withHeader('Content-Type', 'text/csv')->withHeader('Content-Disposition', "attachment; filename=$filename.csv");
+            $response->getBody()->write($data);
+            return $response->withHeader('Content-Type', 'application/json');
         } catch (Exception $err) {
             $payload = json_encode(['error' => $err->getMessage()]);
             $response->getBody()->write($payload);
@@ -62,17 +60,17 @@ class CSVController
             switch ($entidad) {
                 case 'clientes':
                     $dir = 'clientes';
-                    Cliente::CargarUsuariosCSV($archivo->getStream()->getMetadata('uri'));
+                    Cliente::CargarUsuariosJSON($archivo->getStream()->getContents());
                     break;
                 case 'reservas':
                     $dir = 'reservas';
-                    Reserva::CargarReservasCSV($archivo->getStream()->getMetadata('uri'));
+                    Reserva::CargarReservasJSON($archivo->getStream()->getContents());
                     break;
                 default:
                     throw new Exception('Entidad no contemplada.');
             }
 
-            $payload = json_encode(["mensaje" => "Se cargo correctamente la entidad $dir desde el csv en la base de datos"]);
+            $payload = json_encode(["mensaje" => "Se cargo correctamente la entidad $dir desde el JSON en la base de datos"]);
         } catch (Exception $err) {
             $payload = json_encode(['error' => $err->getMessage()]);
         } finally {

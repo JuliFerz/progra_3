@@ -1,0 +1,30 @@
+[
+    {
+        "usuario": "json",
+        "clave": "json",
+        "nombre": "Gordon",
+        "apellido": "Freeman",
+        "email": "gfreeman@gmail.com",
+        "tipo_doc": "DNI",
+        "nro_doc": 132465798,
+        "tipo_cliente": "CORPO",
+        "pais": "Argentina",
+        "ciudad": "Avellaneda",
+        "telefono": 1133554466,
+        "modalidad_pago": "Credito"
+    },
+    {
+        "usuario": "json2",
+        "clave": "json2",
+        "nombre": "Isaac",
+        "apellido": "Kleiner",
+        "email": "ikleiner@hotmail.com",
+        "tipo_doc": "LE",
+        "nro_doc": 546813278,
+        "tipo_cliente": "INDI",
+        "pais": "Argentina",
+        "ciudad": "Quilmes",
+        "telefono": 44332211,
+        "modalidad_pago": "Efectivo"
+    }
+]
