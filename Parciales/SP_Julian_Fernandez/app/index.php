@@ -13,6 +13,7 @@ use Slim\Routing\RouteCollectorProxy;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once './db/AccesoDatos.php';
+require_once './controllers/UsuarioController.php';
 require_once './controllers/ClienteController.php';
 require_once './controllers/ReservaController.php';
 require_once './controllers/AuthController.php';
@@ -22,6 +23,8 @@ require_once './controllers/JSONController.php';
 require_once './middlewares/CamposClienteMW.php';
 require_once './middlewares/CamposReservaMW.php';
 require_once './middlewares/AuthMiddleware.php';
+require_once './middlewares/LogMiddleware.php';
+require_once './middlewares/LogTransaccionMiddleware.php';
 
 $app = AppFactory::create();
 
@@ -38,96 +41,122 @@ $app->get('[/]', function (Request $request, Response $response) {
 
 $app->group('/login', function (RouteCollectorProxy $group) {
     $group->post('[/]', \AuthController::class . ':GenerarToken')
+        // ->add(new LogTransaccionMiddleware())
         ->add(\AuthMiddleware::class . ':validarLogin');
-});
+})->add(new LogMiddleware());
 
 $app->group('/clientes', function (RouteCollectorProxy $group) {
-    // $traerTodos = new AuthMiddleware();
-    // $traerUno = new AuthMiddleware();
-    // $cargarUno = new AuthMiddleware();
-    // $modificarUno = new AuthMiddleware();
-    // $borrarUno = new AuthMiddleware();
+    $traerTodos = new AuthMiddleware();
+    $traerUno = new AuthMiddleware();
+    $cargarUno = new AuthMiddleware();
+    $modificarUno = new AuthMiddleware();
+    $borrarUno = new AuthMiddleware();
 
-    // $traerTodos->setTiposPermitidos(['corpo', 'indi']);
-    // $traerUno->setTiposPermitidos(['admin', 'socio']);
-    // $cargarUno->setTiposPermitidos(['admin', 'socio']);
-    // $modificarUno->setTiposPermitidos(['admin', 'socio']);
-    // $borrarUno->setTiposPermitidos(['admin', 'socio']);
+    $traerTodos->setTiposPermitidos(['recepcionista', 'cliente']);
+    $traerUno->setTiposPermitidos(['recepcionista', 'cliente']);
+    $cargarUno->setTiposPermitidos(['gerente']);
+    $modificarUno->setTiposPermitidos(['gerente']);
+    $borrarUno->setTiposPermitidos(['gerente']);
 
     $group->get('[/]', \ClienteController::class . ':TraerTodos')
-        // ->add($traerTodos)
+        ->add($traerTodos)
         ->add(\AuthMiddleware::class . ':verificarToken');
 
     $group->get('/{cliente}', \ClienteController::class . ':TraerUno')
-    //     ->add($traerUno)
+        ->add($traerUno)
         ->add(\AuthMiddleware::class . ':verificarToken');
 
     $group->post('[/]', \ClienteController::class . ':CargarUno')
+        // ->add(new LogTransaccionMiddleware())
         ->add(new CamposClienteMW())
-    //     ->add($cargarUno)
+        ->add($cargarUno)
+        // ->add(\AuthMiddleware::class . ':obtenerDataToken')
         ->add(\AuthMiddleware::class . ':verificarToken');
 
     $group->put('/{cliente}', \ClienteController::class . ':ModificarUno')
-    //     ->add($modificarUno)
+        // ->add(new LogTransaccionMiddleware())
+        ->add($modificarUno)
+        // ->add(\AuthMiddleware::class . ':obtenerDataToken')
         ->add(\AuthMiddleware::class . ':verificarToken');
 
     $group->delete('/{cliente}', \ClienteController::class . ':BorrarUno')
-    //     ->add($borrarUno)
+        // ->add(new LogTransaccionMiddleware())
+        ->add($borrarUno)
+        // ->add(\AuthMiddleware::class . ':obtenerDataToken')
         ->add(\AuthMiddleware::class . ':verificarToken');
-});
+})->add(new LogMiddleware());
 
 $app->group('/reservas', function (RouteCollectorProxy $group) {
-    // $traerTodos = new AuthMiddleware();
-    // $traerUno = new AuthMiddleware();
-    // $cargarUno = new AuthMiddleware();
-    // $modificarUno = new AuthMiddleware();
-    // $borrarUno = new AuthMiddleware();
+    $traerTodos = new AuthMiddleware();
+    $traerUno = new AuthMiddleware();
+    $cargarUno = new AuthMiddleware();
+    $modificarUno = new AuthMiddleware();
+    $borrarUno = new AuthMiddleware();
+    $cancelarUno = new AuthMiddleware();
+    $ajustarUno = new AuthMiddleware();
 
-    // $traerTodos->setTiposPermitidos(['admin', 'socio']);
-    // $traerUno->setTiposPermitidos(['admin', 'socio']);
-    // $cargarUno->setTiposPermitidos(['admin', 'socio']);
-    // $modificarUno->setTiposPermitidos(['admin', 'socio']);
-    // $borrarUno->setTiposPermitidos(['admin', 'socio']);
+    $traerTodos->setTiposPermitidos(['recepcionista', 'cliente']);
+    $traerUno->setTiposPermitidos(['recepcionista', 'cliente']);
+    $cargarUno->setTiposPermitidos(['recepcionista', 'cliente']);
+    $modificarUno->setTiposPermitidos(['recepcionista', 'cliente']);
+    $borrarUno->setTiposPermitidos(['recepcionista', 'cliente']);
+    $cancelarUno->setTiposPermitidos(['recepcionista', 'cliente']);
+    $ajustarUno->setTiposPermitidos(['recepcionista', 'cliente']);
 
     $group->get('[/]', \ReservaController::class . ':TraerTodos')
-        // ->add($traerTodos)
+        ->add($traerTodos)
         ->add(\AuthMiddleware::class . ':verificarToken');
+        // ->add(new LogMiddleware());
 
     $group->get('/{reserva}', \ReservaController::class . ':TraerUno')
-    //     ->add($traerUno)
+        ->add($traerUno)
         ->add(\AuthMiddleware::class . ':verificarToken');
 
     $group->post('[/]', \ReservaController::class . ':CargarUno')
+        // ->add(new LogTransaccionMiddleware())
         ->add(new CamposReservaMW())
-    //     ->add($cargarUno)
+        ->add($cargarUno)
+        // ->add(\AuthMiddleware::class . ':obtenerDataToken')
         ->add(\AuthMiddleware::class . ':verificarToken');
 
     $group->put('/{reserva}', \ReservaController::class . ':ModificarUno')
-    //     ->add($modificarUno)
+        // ->add(new LogTransaccionMiddleware())
+        ->add($modificarUno)
+        // ->add(\AuthMiddleware::class . ':obtenerDataToken')
         ->add(\AuthMiddleware::class . ':verificarToken');
 
     $group->delete('/{reserva}', \ReservaController::class . ':BorrarUno')
-    //     ->add($borrarUno)
+        // ->add(new LogTransaccionMiddleware())
+        ->add($borrarUno)
+        // ->add(\AuthMiddleware::class . ':obtenerDataToken')
         ->add(\AuthMiddleware::class . ':verificarToken');
 
     $group->post('/{reserva}/cancelar', \ReservaController::class . ':CancelarUno')
-    //     ->add($modificarUno)
+        // ->add(new LogTransaccionMiddleware())
+        ->add($cancelarUno)
+        // ->add(\AuthMiddleware::class . ':obtenerDataToken')
         ->add(\AuthMiddleware::class . ':verificarToken');
 
     $group->post('/{reserva}/ajuste', \ReservaController::class . ':AjustarUno')
-    //     ->add($modificarUno)
+        ->add(new LogTransaccionMiddleware())
+        ->add($ajustarUno)
+        ->add(\AuthMiddleware::class . ':obtenerDataToken')
         ->add(\AuthMiddleware::class . ':verificarToken');
+})->add(new LogMiddleware());
+
+$app->group('/usuarios', function (RouteCollectorProxy $group) {
+    $group->post('[/]', \UsuarioController::class . ':CargarUno');
 });
 
 $app->group('/csv', function (RouteCollectorProxy $group) {
     $group->get('/descargar', \CSVController::class . ':DescargarEntidad');
     $group->post('/cargar', \CSVController::class . ':CargarEntidad');
-});
+})->add(new LogMiddleware());
 
 $app->group('/json', function (RouteCollectorProxy $group) {
     $group->get('/descargar', \JSONController::class . ':DescargarEntidad');
     $group->post('/cargar', \JSONController::class . ':CargarEntidad');
-});
+})->add(new LogMiddleware());
 
 $app->run();
 ?>

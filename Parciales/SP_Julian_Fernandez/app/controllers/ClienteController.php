@@ -37,6 +37,7 @@ class ClienteController implements IApiUsable
 
         } catch (Exception $err) {
             $payload = json_encode(array("error" => $err->getMessage()));
+            $response = $response->withStatus(500);
         } finally {
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');
@@ -95,7 +96,10 @@ class ClienteController implements IApiUsable
                     $bdId = $bdCliente->{'id'};
                     $cliente->setId($bdId);
                     $cliente->modificarCliente();
-                    $payload = json_encode(array("mensaje" => "Cliente $bdId actualizado con exito"));
+                    $payload = json_encode([
+                        "id" => $bdId,
+                        "mensaje" => "Cliente actualizado con exito"
+                    ]);
                     $actualizado = true;
                 }
             }
@@ -104,10 +108,14 @@ class ClienteController implements IApiUsable
                 $cliente->setId($nuevoId);
                 $nombreFoto = $cliente->EstablecerFotoCliente($fotoUsuario, $nuevoId);
                 $cliente->setFotoUsuario($nombreFoto);
-                $payload = json_encode(array("mensaje" => "Cliente $nuevoId creado con exito"));
+                $payload = json_encode([
+                    "id" => $nuevoId,
+                    "mensaje" => "Cliente creado con exito"
+                ]);
             }
         } catch (Exception $err) {
             $payload = json_encode(array("error" => $err->getMessage()));
+            $response = $response->withStatus(500);
         } finally {
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');
@@ -155,9 +163,13 @@ class ClienteController implements IApiUsable
             $cliente->setTelefono($telefono);
             $cliente->setModalidadPago($modalidadPago);
             $cliente->modificarCliente();
-            $payload = json_encode(array("mensaje" => "Cliente $id modificado con exito"));
+            $payload = json_encode([
+                "id" => $id,
+                "mensaje" => "Cliente modificado con exito"
+            ]);
         } catch (Exception $err) {
             $payload = json_encode(array("error" => $err->getMessage()));
+            $response = $response->withStatus(500);
         } finally {
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');
@@ -196,11 +208,13 @@ class ClienteController implements IApiUsable
             // 4. Borrar el usuario
             Cliente::borrarUsuario($id);
             $payload = json_encode([
+                "id" => $id,
                 "mensaje" => "Usuario borrado con exito",
                 "reservas_eliminadas" => count($reservas)
             ]);
         } catch (Exception $err) {
             $payload = json_encode(array("error" => $err->getMessage()));
+            $response = $response->withStatus(500);
         } finally {
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');

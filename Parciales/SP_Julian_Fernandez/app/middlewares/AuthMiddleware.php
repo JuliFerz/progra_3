@@ -5,6 +5,7 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
 
 require_once('./models/Cliente.php');
+require_once('./models/Usuario.php');
 
 class AuthMiddleware
 {
@@ -25,14 +26,15 @@ class AuthMiddleware
             $token = trim(explode("Bearer", $header)[1]);
 
             $data = AutentificadorJWT::ObtenerData($token);
-            // if (!in_array($data->{'sector'}, $this->sectoresPermitidos)) {
-            if (!in_array(strtolower($data->{'tipo_cliente'}), $this->tiposPermitidos)) {
+            // if (!in_array(strtolower($data->{'tipo_cliente'}), $this->tiposPermitidos)) {
+            if (!in_array(strtolower($data->{'rol'}), $this->tiposPermitidos)) {
                 throw new Exception("No tiene permitido consumir el recurso");
             }
             $response = $handler->handle($request);
 
         } catch (Exception $e) {
             $response = new Response();
+            $response = $response->withStatus(500);
             $payload = json_encode(["mensaje" => $e->getMessage()]);
             $response->getBody()->write($payload);
         }
@@ -53,7 +55,8 @@ class AuthMiddleware
             $clave = $parametros['clave'];
             $usuarioDisponible = null;
 
-            $bdUsuarios = Cliente::obtenerTodos();
+            // $bdUsuarios = Cliente::obtenerTodos();
+            $bdUsuarios = Usuario::obtenerTodos();
             foreach ($bdUsuarios as $usuario) {
                 if ($usuario->{'usuario'} == $nombreUsuario && password_verify($clave, $usuario->{'clave'})) {
                     $usuarioDisponible = $usuario;
@@ -66,6 +69,7 @@ class AuthMiddleware
             $response = $handler->handle($request);
         } catch (Exception $err) {
             $response = new Response();
+            $response = $response->withStatus(500);
             $payload = json_encode(array('mensaje' => $err->getMessage()));
             $response->getBody()->write($payload);
         } finally {
@@ -86,6 +90,7 @@ class AuthMiddleware
             $response = $handler->handle($request);
         } catch (Exception $e) {
             $response = new Response();
+            $response = $response->withStatus(500);
             $errMsg = $e->getMessage();
             $payload = json_encode(["mensaje" => "No se logro autenticar con el token. $errMsg"]);
             $response->getBody()->write($payload);

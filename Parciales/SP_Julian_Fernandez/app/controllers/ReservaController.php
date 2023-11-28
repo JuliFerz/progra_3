@@ -24,6 +24,7 @@ class ReservaController implements IApiUsable
             }
         } catch (Exception $err) {
             $payload = json_encode(array("error" => $err->getMessage()));
+            $response = $response->withStatus(500);
         } finally {
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');
@@ -74,9 +75,13 @@ class ReservaController implements IApiUsable
             $nombreFoto = $reserva->EstablecerFotoReserva($fotoReserva, $nuevoId);
             $reserva->setFotoReserva($nombreFoto);
 
-            $payload = json_encode(array("mensaje" => "Reserva $nuevoId creada con exito"));
+            $payload = json_encode([
+                "id" => $nuevoId,
+                "mensaje" => "Reserva creada con exito"
+            ]);
         } catch (Exception $err) {
             $payload = json_encode(array("error" => $err->getMessage()));
+            $response = $response->withStatus(500);
         } finally {
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');
@@ -122,9 +127,13 @@ class ReservaController implements IApiUsable
 
             $reserva->modificarReserva();
 
-            $payload = json_encode(array("mensaje" => "Reserva $id modificada con exito"));
+            $payload = json_encode([
+                "id" => $id,
+                "mensaje" => "Reserva modificada con exito"
+            ]);
         } catch (Exception $err) {
             $payload = json_encode(array("error" => $err->getMessage()));
+            $response = $response->withStatus(500);
         } finally {
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');
@@ -141,9 +150,13 @@ class ReservaController implements IApiUsable
             }
 
             Reserva::borrarReserva($id);
-            $payload = json_encode(array("mensaje" => "Reserva borrada con exito"));
+            $payload = json_encode([
+                "id" => $id,
+                "mensaje" => "Reserva borrada con exito"
+            ]);
         } catch (Exception $err) {
             $payload = json_encode(array("error" => $err->getMessage()));
+            $response = $response->withStatus(500);
         } finally {
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');
@@ -170,9 +183,13 @@ class ReservaController implements IApiUsable
             }
 
             Reserva::borrarReserva($id);
-            $payload = json_encode(array("mensaje" => "Reserva cancelada con exito"));
+            $payload = json_encode([
+                "id" => $id,
+                "mensaje" => "Reserva cancelada con exito"
+            ]);
         } catch (Exception $err) {
             $payload = json_encode(array("error" => $err->getMessage()));
+            $response = $response->withStatus(500);
         } finally {
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');
@@ -207,9 +224,13 @@ class ReservaController implements IApiUsable
             $bdReserva->modificarReserva(true);
 
             // Reserva::borrarReserva($id);
-            $payload = json_encode(array("mensaje" => "Reserva $id ajustada con exito"));
+            $payload = json_encode([
+                "id" => $id,
+                "mensaje" => "Reserva ajustada con exito"
+            ]);
         } catch (Exception $err) {
             $payload = json_encode(array("error" => $err->getMessage()));
+            $response = $response->withStatus(500);
         } finally {
             $response->getBody()->write($payload);
             return $response->withHeader('Content-Type', 'application/json');

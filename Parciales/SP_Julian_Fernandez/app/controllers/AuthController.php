@@ -10,12 +10,15 @@ class AuthController
     public function GenerarToken($request, $response, $args)
     {
         $usuarioDisponible = $request->getAttribute('usuarioDisponible');
-        // $sectorUsuario = Sector::obtenerSectorPorId($usuarioDisponible->{'id_sector'});
+        // $datos = [
+        //     'id' => $usuarioDisponible->{'id'},
+        //     'usuario' => $usuarioDisponible->{'usuario'},
+        //     'tipo_cliente' => strtolower($usuarioDisponible->{'tipo_cliente'}),
+        // ];
         $datos = [
             'id' => $usuarioDisponible->{'id'},
             'usuario' => $usuarioDisponible->{'usuario'},
-            'tipo_cliente' => strtolower($usuarioDisponible->{'tipo_cliente'}),
-            // 'prioridad' => $usuarioDisponible->{'prioridad'}
+            'rol' => strtolower($usuarioDisponible->{'rol'}),
         ];
 
         $token = AutentificadorJWT::CrearToken($datos);

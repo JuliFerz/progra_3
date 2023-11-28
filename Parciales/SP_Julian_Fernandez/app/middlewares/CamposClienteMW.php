@@ -48,6 +48,7 @@ class CamposClienteMW
             $response = $handler->handle($request);
         } catch (Exception $err){
             $response = new Response();
+            $response = $response->withStatus(500);
             $payload = json_encode(array('mensaje' => $err->getMessage()));
             $response->getBody()->write($payload);
         } finally {
