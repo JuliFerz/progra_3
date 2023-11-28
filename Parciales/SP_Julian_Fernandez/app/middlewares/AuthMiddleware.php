@@ -4,11 +4,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
 
-require_once('./models/Usuario.php');
+require_once('./models/Cliente.php');
 
 class AuthMiddleware
 {
-    private $sectoresPermitidos = [];
+    private $tiposPermitidos = [];
 
     /**
      * Example middleware invokable class
@@ -25,7 +25,8 @@ class AuthMiddleware
             $token = trim(explode("Bearer", $header)[1]);
 
             $data = AutentificadorJWT::ObtenerData($token);
-            if (!in_array($data->{'sector'}, $this->sectoresPermitidos)) {
+            // if (!in_array($data->{'sector'}, $this->sectoresPermitidos)) {
+            if (!in_array(strtolower($data->{'tipo_cliente'}), $this->tiposPermitidos)) {
                 throw new Exception("No tiene permitido consumir el recurso");
             }
             $response = $handler->handle($request);
@@ -52,7 +53,7 @@ class AuthMiddleware
             $clave = $parametros['clave'];
             $usuarioDisponible = null;
 
-            $bdUsuarios = Usuario::obtenerTodos();
+            $bdUsuarios = Cliente::obtenerTodos();
             foreach ($bdUsuarios as $usuario) {
                 if ($usuario->{'usuario'} == $nombreUsuario && password_verify($clave, $usuario->{'clave'})) {
                     $usuarioDisponible = $usuario;
@@ -103,12 +104,12 @@ class AuthMiddleware
         return $response->withHeader('Content-Type', 'application/json');
     }
 
-    public function getSectoresPermitidos()
+    public function getTiposPermitidos()
     {
-        return $this->sectoresPermitidos;
+        return $this->tiposPermitidos;
     }
-    public function setSectoresPermitidos($valor)
+    public function setTiposPermitidos($valor)
     {
-        $this->sectoresPermitidos = $valor;
+        $this->tiposPermitidos = $valor;
     }
 }

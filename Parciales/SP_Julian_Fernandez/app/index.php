@@ -21,12 +21,12 @@ require_once './controllers/ReservaController.php';
 // require_once './controllers/SectorController.php';
 // require_once './controllers/MesaController.php';
 // require_once './controllers/EncuestaController.php';
-// require_once './controllers/AuthController.php';
+require_once './controllers/AuthController.php';
 // require_once './controllers/CSVController.php';
 
 require_once './middlewares/CamposClienteMW.php';
 require_once './middlewares/CamposReservaMW.php';
-// require_once './middlewares/AuthMiddleware.php';
+require_once './middlewares/AuthMiddleware.php';
 
 $app = AppFactory::create();
 
@@ -41,10 +41,10 @@ $app->get('[/]', function (Request $request, Response $response) {
     return $response;
 });
 
-// $app->group('/login', function (RouteCollectorProxy $group) {
-//     $group->post('[/]', \AuthController::class . ':GenerarToken')
-//         ->add(\AuthMiddleware::class . ':validarLogin');
-// });
+$app->group('/login', function (RouteCollectorProxy $group) {
+    $group->post('[/]', \AuthController::class . ':GenerarToken')
+        ->add(\AuthMiddleware::class . ':validarLogin');
+});
 
 $app->group('/clientes', function (RouteCollectorProxy $group) {
     // $traerTodos = new AuthMiddleware();
@@ -53,32 +53,32 @@ $app->group('/clientes', function (RouteCollectorProxy $group) {
     // $modificarUno = new AuthMiddleware();
     // $borrarUno = new AuthMiddleware();
 
-    // $traerTodos->setSectoresPermitidos(['admin', 'socio']);
-    // $traerUno->setSectoresPermitidos(['admin', 'socio']);
-    // $cargarUno->setSectoresPermitidos(['admin', 'socio']);
-    // $modificarUno->setSectoresPermitidos(['admin', 'socio']);
-    // $borrarUno->setSectoresPermitidos(['admin', 'socio']);
+    // $traerTodos->setTiposPermitidos(['corpo', 'indi']);
+    // $traerUno->setTiposPermitidos(['admin', 'socio']);
+    // $cargarUno->setTiposPermitidos(['admin', 'socio']);
+    // $modificarUno->setTiposPermitidos(['admin', 'socio']);
+    // $borrarUno->setTiposPermitidos(['admin', 'socio']);
 
-    $group->get('[/]', \ClienteController::class . ':TraerTodos');
+    $group->get('[/]', \ClienteController::class . ':TraerTodos')
         // ->add($traerTodos)
-        // ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 
-    $group->get('/{cliente}', \ClienteController::class . ':TraerUno');
+    $group->get('/{cliente}', \ClienteController::class . ':TraerUno')
     //     ->add($traerUno)
-    //     ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 
     $group->post('[/]', \ClienteController::class . ':CargarUno')
-        ->add(new CamposClienteMW());
+        ->add(new CamposClienteMW())
     //     ->add($cargarUno)
-    //     ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 
-    $group->put('/{cliente}', \ClienteController::class . ':ModificarUno');
+    $group->put('/{cliente}', \ClienteController::class . ':ModificarUno')
     //     ->add($modificarUno)
-    //     ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 
-    $group->delete('/{cliente}', \ClienteController::class . ':BorrarUno');
+    $group->delete('/{cliente}', \ClienteController::class . ':BorrarUno')
     //     ->add($borrarUno)
-    //     ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 });
 
 $app->group('/reservas', function (RouteCollectorProxy $group) {
@@ -88,40 +88,40 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
     // $modificarUno = new AuthMiddleware();
     // $borrarUno = new AuthMiddleware();
 
-    // $traerTodos->setSectoresPermitidos(['admin', 'socio']);
-    // $traerUno->setSectoresPermitidos(['admin', 'socio']);
-    // $cargarUno->setSectoresPermitidos(['admin', 'socio']);
-    // $modificarUno->setSectoresPermitidos(['admin', 'socio']);
-    // $borrarUno->setSectoresPermitidos(['admin', 'socio']);
+    // $traerTodos->setTiposPermitidos(['admin', 'socio']);
+    // $traerUno->setTiposPermitidos(['admin', 'socio']);
+    // $cargarUno->setTiposPermitidos(['admin', 'socio']);
+    // $modificarUno->setTiposPermitidos(['admin', 'socio']);
+    // $borrarUno->setTiposPermitidos(['admin', 'socio']);
 
-    $group->get('[/]', \ReservaController::class . ':TraerTodos');
+    $group->get('[/]', \ReservaController::class . ':TraerTodos')
         // ->add($traerTodos)
-        // ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 
-    $group->get('/{reserva}', \ReservaController::class . ':TraerUno');
+    $group->get('/{reserva}', \ReservaController::class . ':TraerUno')
     //     ->add($traerUno)
-    //     ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 
     $group->post('[/]', \ReservaController::class . ':CargarUno')
-        ->add(new CamposReservaMW());
+        ->add(new CamposReservaMW())
     //     ->add($cargarUno)
-    //     ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 
-    $group->put('/{reserva}', \ReservaController::class . ':ModificarUno');
+    $group->put('/{reserva}', \ReservaController::class . ':ModificarUno')
     //     ->add($modificarUno)
-    //     ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 
-    $group->delete('/{reserva}', \ReservaController::class . ':BorrarUno');
+    $group->delete('/{reserva}', \ReservaController::class . ':BorrarUno')
     //     ->add($borrarUno)
-    //     ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 
-    $group->post('/{reserva}/cancelar', \ReservaController::class . ':CancelarUno');
+    $group->post('/{reserva}/cancelar', \ReservaController::class . ':CancelarUno')
     //     ->add($modificarUno)
-    //     ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 
-    $group->post('/{reserva}/ajuste', \ReservaController::class . ':AjustarUno');
+    $group->post('/{reserva}/ajuste', \ReservaController::class . ':AjustarUno')
     //     ->add($modificarUno)
-    //     ->add(\AuthMiddleware::class . ':verificarToken');
+        ->add(\AuthMiddleware::class . ':verificarToken');
 });
 // $app->group('/usuarios', function (RouteCollectorProxy $group) {
 //     $traerTodos = new AuthMiddleware();
@@ -130,11 +130,11 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
 //     $modificarUno = new AuthMiddleware();
 //     $borrarUno = new AuthMiddleware();
 
-//     $traerTodos->setSectoresPermitidos(['admin', 'socio']);
-//     $traerUno->setSectoresPermitidos(['admin', 'socio']);
-//     $cargarUno->setSectoresPermitidos(['admin', 'socio']);
-//     $modificarUno->setSectoresPermitidos(['admin', 'socio']);
-//     $borrarUno->setSectoresPermitidos(['admin', 'socio']);
+//     $traerTodos->setTiposPermitidos(['admin', 'socio']);
+//     $traerUno->setTiposPermitidos(['admin', 'socio']);
+//     $cargarUno->setTiposPermitidos(['admin', 'socio']);
+//     $modificarUno->setTiposPermitidos(['admin', 'socio']);
+//     $borrarUno->setTiposPermitidos(['admin', 'socio']);
 
 //     $group->get('[/]', \UsuarioController::class . ':TraerTodos')
 //         ->add($traerTodos)
@@ -172,24 +172,24 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
 //     $cobrarPedido = new AuthMiddleware();
 //     $cerrarPedido = new AuthMiddleware();
 
-//     $traerDisponibles->setSectoresPermitidos(
+//     $traerDisponibles->setTiposPermitidos(
 //         ['admin', 'socio', 'cocinero', 'bartender', 'cervecero', 'mozo']);
-//     $traerTodos->setSectoresPermitidos(
+//     $traerTodos->setTiposPermitidos(
 //         ['admin', 'socio', 'cocinero', 'bartender', 'cervecero', 'mozo']);
-//     $traerUno->setSectoresPermitidos(
+//     $traerUno->setTiposPermitidos(
 //         ['admin', 'socio', 'cocinero', 'bartender', 'cervecero', 'mozo']);
-//     $cargarUno->setSectoresPermitidos(['admin', 'socio', 'mozo']);
-//     $modificarUno->setSectoresPermitidos(['admin', 'socio']);
-//     $borrarUno->setSectoresPermitidos(['admin', 'socio']);
-//     $tomarFoto->setSectoresPermitidos(
+//     $cargarUno->setTiposPermitidos(['admin', 'socio', 'mozo']);
+//     $modificarUno->setTiposPermitidos(['admin', 'socio']);
+//     $borrarUno->setTiposPermitidos(['admin', 'socio']);
+//     $tomarFoto->setTiposPermitidos(
 //         ['admin', 'socio', 'cocinero', 'bartender', 'cervecero', 'mozo']);
-//     $prepararPedido->setSectoresPermitidos(
+//     $prepararPedido->setTiposPermitidos(
 //         ['admin', 'socio', 'cocinero', 'bartender', 'cervecero', 'mozo']);
-//     $completarPedido->setSectoresPermitidos(
+//     $completarPedido->setTiposPermitidos(
 //         ['admin', 'socio', 'cocinero', 'bartender', 'cervecero', 'mozo']);
-//     $servirPedido->setSectoresPermitidos(['admin', 'socio', 'mozo']);
-//     $cobrarPedido->setSectoresPermitidos(['admin', 'socio', 'mozo']);
-//     $cerrarPedido->setSectoresPermitidos(['admin', 'socio']);
+//     $servirPedido->setTiposPermitidos(['admin', 'socio', 'mozo']);
+//     $cobrarPedido->setTiposPermitidos(['admin', 'socio', 'mozo']);
+//     $cerrarPedido->setTiposPermitidos(['admin', 'socio']);
 
 //     $group->get('/disponibles', \PedidoController::class . ':TraerDisponibles')
 //         ->add($traerDisponibles)
@@ -251,13 +251,13 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
 //     $modificarUno = new AuthMiddleware();
 //     $borrarUno = new AuthMiddleware();
 
-//     $traerTodos->setSectoresPermitidos(
+//     $traerTodos->setTiposPermitidos(
 //         ['admin', 'socio', 'cocinero', 'bartender', 'cervecero', 'mozo']);
-//     $traerUno->setSectoresPermitidos(
+//     $traerUno->setTiposPermitidos(
 //         ['admin', 'socio', 'cocinero', 'bartender', 'cervecero', 'mozo']);
-//     $cargarUno->setSectoresPermitidos(['admin', 'socio', 'mozo']);
-//     $modificarUno->setSectoresPermitidos(['socio', 'admin']);
-//     $borrarUno->setSectoresPermitidos(['socio', 'admin']);
+//     $cargarUno->setTiposPermitidos(['admin', 'socio', 'mozo']);
+//     $modificarUno->setTiposPermitidos(['socio', 'admin']);
+//     $borrarUno->setTiposPermitidos(['socio', 'admin']);
 
 //     $group->get('[/]', \ProductoController::class . ':TraerTodos')
 //         ->add($traerTodos)
@@ -288,12 +288,12 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
 //     $modificarUno = new AuthMiddleware();
 //     $borrarUno = new AuthMiddleware();
 
-//     $traerTodos->setSectoresPermitidos(['socio', 'admin']);
-//     $traerUno->setSectoresPermitidos(['socio', 'admin', 'mozo']);
-//     $consultarEstado->setSectoresPermitidos(['socio', 'admin', 'mozo', 'cliente']);
-//     $cargarUno->setSectoresPermitidos(['socio', 'admin', 'mozo']);
-//     $modificarUno->setSectoresPermitidos(['socio', 'admin', 'mozo']);
-//     $borrarUno->setSectoresPermitidos(['socio', 'admin', 'mozo']);
+//     $traerTodos->setTiposPermitidos(['socio', 'admin']);
+//     $traerUno->setTiposPermitidos(['socio', 'admin', 'mozo']);
+//     $consultarEstado->setTiposPermitidos(['socio', 'admin', 'mozo', 'cliente']);
+//     $cargarUno->setTiposPermitidos(['socio', 'admin', 'mozo']);
+//     $modificarUno->setTiposPermitidos(['socio', 'admin', 'mozo']);
+//     $borrarUno->setTiposPermitidos(['socio', 'admin', 'mozo']);
 
 //     $group->get('[/]', \MesaController::class . ':TraerTodos')
 //         ->add($traerTodos)
@@ -322,11 +322,11 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
 //     $modificarUno = new AuthMiddleware();
 //     $borrarUno = new AuthMiddleware();
 
-//     $traerTodos->setSectoresPermitidos(['socio', 'admin']);
-//     $traerUno->setSectoresPermitidos(['socio', 'admin']);
-//     $cargarUno->setSectoresPermitidos(['socio', 'admin']);
-//     $modificarUno->setSectoresPermitidos(['socio', 'admin']);
-//     $borrarUno->setSectoresPermitidos(['socio', 'admin']);
+//     $traerTodos->setTiposPermitidos(['socio', 'admin']);
+//     $traerUno->setTiposPermitidos(['socio', 'admin']);
+//     $cargarUno->setTiposPermitidos(['socio', 'admin']);
+//     $modificarUno->setTiposPermitidos(['socio', 'admin']);
+//     $borrarUno->setTiposPermitidos(['socio', 'admin']);
 
 //     $group->get('[/]', \SectorController::class . ':TraerTodos')
 //         ->add($traerTodos)
@@ -352,11 +352,11 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
 //     $modificarUno = new AuthMiddleware();
 //     $borrarUno = new AuthMiddleware();
 
-//     $traerTodos->setSectoresPermitidos(['socio', 'admin']);
-//     $traerUno->setSectoresPermitidos(['socio', 'admin']);
-//     $cargarUno->setSectoresPermitidos(['socio', 'admin']);
-//     $modificarUno->setSectoresPermitidos(['socio', 'admin']);
-//     $borrarUno->setSectoresPermitidos(['socio', 'admin']);
+//     $traerTodos->setTiposPermitidos(['socio', 'admin']);
+//     $traerUno->setTiposPermitidos(['socio', 'admin']);
+//     $cargarUno->setTiposPermitidos(['socio', 'admin']);
+//     $modificarUno->setTiposPermitidos(['socio', 'admin']);
+//     $borrarUno->setTiposPermitidos(['socio', 'admin']);
 
 //     $group->get('[/]', \EncuestaController::class . ':TraerTodos')
 //         ->add($traerTodos)
