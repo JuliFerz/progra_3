@@ -23,12 +23,12 @@ class CSVController
                 case 'clientes':
                     $filename = 'clientes';
                     $bdClientes = Cliente::obtenerTodosCSV();
-                    Cliente::DescargarClientes($bdClientes);
+                    Cliente::DescargarClientesCSV($bdClientes);
                     break;
                 case 'reservas':
                     $filename = 'reservas';
                     $bdReservas = Reserva::obtenerTodosCSV();
-                    Reserva::DescargarReservas($bdReservas);
+                    Reserva::DescargarReservasCSV($bdReservas);
                     break;
                 default:
                     throw new Exception('Entidad no contemplada.');

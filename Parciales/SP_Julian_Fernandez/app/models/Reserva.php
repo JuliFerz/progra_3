@@ -2,7 +2,7 @@
 
 require_once './controllers/FileController.php';
 
-class Reserva /* implements JsonSerializable */ {
+class Reserva {
     private string $_PATH = './images/ImagenesDeReservas/2023/';
     private int $_id;
     private string $_tipoCliente;
@@ -25,18 +25,6 @@ class Reserva /* implements JsonSerializable */ {
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
     }
-
-    // public static function obtenerClienteExistente($email)
-    // {
-    //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
-    //     $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM reservas
-    //         WHERE email = :email 
-    //             AND fecha_baja IS NULL");
-    //     $consulta->bindValue(':email', $email, PDO::PARAM_STR);
-    //     $consulta->execute();
-
-    //     return $consulta->fetchObject('Reserva');
-    // }
 
     public static function obtenerTodosCSV()
     {
@@ -65,16 +53,6 @@ class Reserva /* implements JsonSerializable */ {
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
     }
-
-    // public static function obtenerUsuarioDisponible($id)
-    // {
-    //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
-    //     $consulta = $objAccesoDatos->prepararConsulta("SELECT *
-    //         FROM reservas WHERE id = :id AND estado = 1;");
-    //     $consulta->bindValue(':id', $id, PDO::PARAM_INT);
-    //     $consulta->execute();
-    //     return $consulta->fetchObject('Usuario');
-    // }
 
     public function crearReserva()
     {
@@ -219,27 +197,6 @@ class Reserva /* implements JsonSerializable */ {
         return $nombreImagen;
     }
 
-    /* public function jsonSerialize()
-    {
-        return [
-            'id' => $this->_id,
-            'usuario' => $this->_usuario,
-            'clave' => $this->_clave,
-            'nombre' => $this->_nombre,
-            'apellido' => $this->_apellido,
-            'email' => $this->_email,
-            'tipo_doc' => $this->_tipoDoc,
-            'nro_doc' => $this->_nroDoc,
-            'tipo_cliente' => $this->_tipoCliente,
-            'pais' => $this->_pais,
-            'ciudad' => $this->_ciudad,
-            'telefono' => $this->_telefono,
-            'modalidad_pago' => $this->_modalidadPago,
-            'foto_usuario' => $this->_fotoUsuario,
-            'fecha_baja' => $this->_fechaBaja
-        ];
-    } */
-
     //-- Getter
     public function getId(){
         return $this->_id;
@@ -309,7 +266,6 @@ class Reserva /* implements JsonSerializable */ {
     public function setFechaBaja($valor){
         $this->_fechaBaja = $valor;
     }
-    
 }
 
 ?>

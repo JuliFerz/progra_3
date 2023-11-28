@@ -1,9 +1,7 @@
 <?php
 
 require_once './interfaces/IApiUsable.php';
-// require_once './controllers/ReservaController.php';
 require_once './models/Cliente.php';
-// require_once './models/Sector.php';
 
 class ClienteController implements IApiUsable
 {
@@ -23,7 +21,6 @@ class ClienteController implements IApiUsable
                 ? $queryParams['tipo_cliente']
                 : false;
             $id = $args['cliente']; // se busca por ID
-            // $arrBool = [];
             
             if (!$tipoCliente){
                 throw new Exception('Para obtener un usuario debe especificar su tipo');
@@ -31,20 +28,6 @@ class ClienteController implements IApiUsable
             $bdClientes = Cliente::obtenerTodos();
 
             $usuario = ClienteController::BuscarClientePorIdYTipo($bdClientes, $id, $tipoCliente);
-
-            /* foreach($bdClientes as $bdCliente){
-                if ($bdCliente->{'id'} == $id && $bdCliente->{'tipo_cliente'} == $tipoCliente){
-                    $usuario = $bdCliente;
-                    break;
-                } else if ($bdCliente->{'id'} == $id && !($bdCliente->{'tipo_cliente'} == $tipoCliente)){
-                    throw new Exception('Tipo de cliente incorrecto');
-                } else {
-                    array_push($arrBool, $bdCliente);
-                }
-            }
-            if (count($arrBool) === count($bdClientes)) {
-                throw new Exception("No existe un cliente con esa combinacion: Tipo '$tipoCliente', ID Cliente: '$id'");
-            }         */    
             $payload = json_encode([
                 'cliente' => $usuario->{'id'},
                 'pais' => $usuario->{'pais'},
@@ -63,8 +46,6 @@ class ClienteController implements IApiUsable
     public function CargarUno($request, $response, $args)
     {
         try {
-            // * Tomando un id autoincremental de 6 dígitos como Nro. de Cliente (emulado).
-	        // * OJO: Si llega el registro con ID 999999, revisar que no se cree uno proximo porque estaría superando el límite
             $bdUltimo = Cliente::obtenerUltimoCliente();
             if($bdUltimo && ($bdUltimo->{'id'} + 1) > 999999){
                 throw new Exception("Se supero el limite de clientes permitidos a crear.");
@@ -153,24 +134,6 @@ class ClienteController implements IApiUsable
             $telefono = $parametros['telefono'];
             $modalidadPago = $parametros['modalidad_pago'] ?? 'Efectivo';
 
-        //     $bdSector = Sector::obtenerSectorDisponible($idSector);
-        //     if (!$bdSector) {
-        //         $sectorTodos = Sector::obtenerTodos();
-        //         $strDisponibles = '';
-
-        //         foreach ($sectorTodos as $sector){
-        //             if ($sector->{'fecha_baja'} != null){
-        //                 continue;
-        //             }
-        //             $idS = $sector->{'id'};
-        //             $detalleS = $sector->{'detalle'};
-        //             $strDisponibles .= "$detalleS ($idS), ";
-        //         }
-        //         $strDisponibles = substr($strDisponibles, 0, strlen($strDisponibles) - 2);
-
-        //         throw new Exception("El sector $idSector no esta disponible. Los sectores disponibles son: $strDisponibles.");
-        //     }
-
             $bdCliente = Cliente::obtenerClientePorId($id);
             if (!$bdCliente) {
                 throw new Exception("El cliente $id no existe");
@@ -244,8 +207,6 @@ class ClienteController implements IApiUsable
         }
     }
 
-    // TODO: Unir estas dos funciones en una sola
-    // si el valor que entra por parametro es STRING, hacerle str to upper
     public static function BuscarClientePorIdYTipo($bdClientes, $id, $tipoCliente){
         $arrBool = [];
         foreach($bdClientes as $bdCliente){
@@ -274,10 +235,9 @@ class ClienteController implements IApiUsable
             }
         }
         if (count($arrBool) === count($bdClientes)) {
-            throw new Exception("No existe un cliente con esa combinacion: Tipo '$tipoCliente', Documento: '$nroDoc'"); // TODO: tener en cuenta esto tambien
+            throw new Exception("No existe un cliente con esa combinacion: Tipo '$tipoCliente', Documento: '$nroDoc'");
         }        
     }
-
 }
 
 ?>

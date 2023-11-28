@@ -2,7 +2,7 @@
 
 require_once './controllers/FileController.php';
 
-class Cliente /* implements JsonSerializable */ {
+class Cliente {
     private string $_PATH = './images/ImagenesDeClientes/2023/';
     private int $_id;
     private string $_usuario;
@@ -18,7 +18,6 @@ class Cliente /* implements JsonSerializable */ {
     private int $_telefono;
     private string $_modalidadPago;
     private ?string $_fotoUsuario;
-    // private ?FileController $_fileController;
     private ?DateTime $_fechaBaja;
 
     public static function obtenerTodos()
@@ -71,16 +70,6 @@ class Cliente /* implements JsonSerializable */ {
         $consulta->execute();
         return $consulta->fetchObject('Cliente');
     }
-
-    // public static function obtenerUsuarioDisponible($id)
-    // {
-    //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
-    //     $consulta = $objAccesoDatos->prepararConsulta("SELECT *
-    //         FROM clientes WHERE id = :id AND estado = 1;");
-    //     $consulta->bindValue(':id', $id, PDO::PARAM_INT);
-    //     $consulta->execute();
-    //     return $consulta->fetchObject('Usuario');
-    // }
 
     public function crearCliente()
     {
@@ -243,27 +232,6 @@ class Cliente /* implements JsonSerializable */ {
         return $nombreImagen;
     }
 
-    /* public function jsonSerialize()
-    {
-        return [
-            'id' => $this->_id,
-            'usuario' => $this->_usuario,
-            'clave' => $this->_clave,
-            'nombre' => $this->_nombre,
-            'apellido' => $this->_apellido,
-            'email' => $this->_email,
-            'tipo_doc' => $this->_tipoDoc,
-            'nro_doc' => $this->_nroDoc,
-            'tipo_cliente' => $this->_tipoCliente,
-            'pais' => $this->_pais,
-            'ciudad' => $this->_ciudad,
-            'telefono' => $this->_telefono,
-            'modalidad_pago' => $this->_modalidadPago,
-            'foto_usuario' => $this->_fotoUsuario,
-            'fecha_baja' => $this->_fechaBaja
-        ];
-    } */
-
     //-- Getter
     public function getId(){
         return $this->_id;
@@ -307,9 +275,6 @@ class Cliente /* implements JsonSerializable */ {
     public function getFotoUsuario(){
         return $this->_fotoUsuario;
     }
-    // public function getFileController(){
-    //     return $this->_fileController;
-    // }
     public function getFechaBaja(){
         return $this->_fechaBaja;
     }
@@ -357,9 +322,6 @@ class Cliente /* implements JsonSerializable */ {
     public function setFotoUsuario($valor){
         $this->_fotoUsuario = $valor;
     }
-    // public function setFileController($valor){
-    //     $this->_fileController = $valor;
-    // }
     public function setFechaBaja($valor){
         $this->_fechaBaja = $valor;
     }

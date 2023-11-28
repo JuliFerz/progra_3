@@ -1,0 +1,933 @@
+{
+	"info": {
+		"_postman_id": "fd806682-bac3-4990-8305-10e2d9cc8a78",
+		"name": "Progra_III_SP_Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23355319"
+	},
+	"item": [
+		{
+			"name": "Cliente",
+			"item": [
+				{
+					"name": "Traer clientes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/clientes",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Traer cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/clientes/100000?tipo_cliente=indi",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"clientes",
+								"100000"
+							],
+							"query": [
+								{
+									"key": "tipo_cliente",
+									"value": "indi"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alta cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "usuario",
+									"value": "test2",
+									"type": "text"
+								},
+								{
+									"key": "clave",
+									"value": "test2",
+									"type": "text"
+								},
+								{
+									"key": "nombre",
+									"value": "Nine",
+									"type": "text"
+								},
+								{
+									"key": "apellido",
+									"value": "Ese",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "yorha3@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "tipo_doc",
+									"value": "DNI",
+									"type": "text"
+								},
+								{
+									"key": "nro_doc",
+									"value": "40963124",
+									"type": "text"
+								},
+								{
+									"key": "tipo_cliente",
+									"value": "CORPO",
+									"type": "text"
+								},
+								{
+									"key": "pais",
+									"value": "Argentina",
+									"type": "text"
+								},
+								{
+									"key": "ciudad",
+									"value": "Avellaneda",
+									"type": "text"
+								},
+								{
+									"key": "telefono",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "modalidad_pago",
+									"value": "Credito",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "foto_usuario",
+									"type": "file",
+									"src": "/D:/Users/julian/Downloads/Alpine 30mm.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/clientes",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "usuario",
+									"value": "Tim123",
+									"type": "text"
+								},
+								{
+									"key": "clave",
+									"value": "Tim123",
+									"type": "text"
+								},
+								{
+									"key": "nombre",
+									"value": "Tim",
+									"type": "text"
+								},
+								{
+									"key": "apellido",
+									"value": "Henson",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "lalala@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "tipo_doc",
+									"value": "DNI",
+									"type": "text"
+								},
+								{
+									"key": "nro_doc",
+									"value": "40252987",
+									"type": "text"
+								},
+								{
+									"key": "tipo_cliente",
+									"value": "corpo",
+									"type": "text"
+								},
+								{
+									"key": "pais",
+									"value": "Argentina",
+									"type": "text"
+								},
+								{
+									"key": "ciudad",
+									"value": "Wilde, Avellaneda",
+									"type": "text"
+								},
+								{
+									"key": "telefono",
+									"value": "7985632145",
+									"type": "text"
+								},
+								{
+									"key": "modalidad_pago",
+									"value": "Credito",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/clientes/100000",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"clientes",
+								"100000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nro_doc",
+									"value": "6516544",
+									"type": "text"
+								},
+								{
+									"key": "tipo_cliente",
+									"value": "INDI",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/clientes/100001",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"clientes",
+								"100001"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reserva",
+			"item": [
+				{
+					"name": "Traer reservas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/reservas",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reservas"
+							],
+							"query": [
+								{
+									"key": "filtro",
+									"value": "total_reservas",
+									"disabled": true
+								},
+								{
+									"key": "filtro",
+									"value": "por_cliente",
+									"disabled": true
+								},
+								{
+									"key": "filtro",
+									"value": "entre_fechas",
+									"disabled": true
+								},
+								{
+									"key": "filtro",
+									"value": "por_habitacion",
+									"disabled": true
+								},
+								{
+									"key": "filtro",
+									"value": "total_cancelado",
+									"disabled": true
+								},
+								{
+									"key": "filtro",
+									"value": "canceladas_por_cliente",
+									"disabled": true
+								},
+								{
+									"key": "filtro",
+									"value": "canceladas_entre_fechas",
+									"disabled": true
+								},
+								{
+									"key": "filtro",
+									"value": "canceladas_por_tipo_cliente",
+									"disabled": true
+								},
+								{
+									"key": "filtro",
+									"value": "todas_reservas_por_cliente",
+									"disabled": true
+								},
+								{
+									"key": "filtro",
+									"value": "por_modalidad_pago",
+									"disabled": true
+								},
+								{
+									"key": "tipo_habitacion",
+									"value": "simple",
+									"disabled": true
+								},
+								{
+									"key": "fecha",
+									"value": "2023-10-24",
+									"disabled": true
+								},
+								{
+									"key": "nro_cliente",
+									"value": "100001",
+									"disabled": true
+								},
+								{
+									"key": "fecha_uno",
+									"value": "2023-10-20",
+									"disabled": true
+								},
+								{
+									"key": "fecha_dos",
+									"value": "2023-10-25",
+									"disabled": true
+								},
+								{
+									"key": "tipo_cliente",
+									"value": "corpo",
+									"disabled": true
+								},
+								{
+									"key": "modalidad_pago",
+									"value": "credito",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Traer reserva",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/reservas/1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reservas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alta Reserva",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "tipo_cliente",
+									"value": "INDI",
+									"type": "text"
+								},
+								{
+									"key": "nro_cliente",
+									"value": "100000",
+									"type": "text"
+								},
+								{
+									"key": "fecha_entrada",
+									"value": "2023-10-22",
+									"type": "text"
+								},
+								{
+									"key": "fecha_salida",
+									"value": "2023-10-24",
+									"type": "text"
+								},
+								{
+									"key": "tipo_habitacion",
+									"value": "suite",
+									"type": "text"
+								},
+								{
+									"key": "importe_total",
+									"value": "255000",
+									"type": "text"
+								},
+								{
+									"key": "foto_reserva",
+									"type": "file",
+									"src": "/D:/Users/julian/Downloads/Photo_1689428525047.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/reservas",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reservas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar reserva",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tipo_cliente",
+									"value": "INDI",
+									"type": "text"
+								},
+								{
+									"key": "nro_cliente",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "fecha_entrada",
+									"value": "2023-10-22",
+									"type": "text"
+								},
+								{
+									"key": "fecha_salida",
+									"value": "2023-10-25",
+									"type": "text"
+								},
+								{
+									"key": "tipo_habitacion",
+									"value": "suite",
+									"type": "text"
+								},
+								{
+									"key": "importe_total",
+									"value": "9999999",
+									"type": "text"
+								},
+								{
+									"key": "modalidad_pago",
+									"value": "Credito",
+									"type": "text"
+								},
+								{
+									"key": "estado",
+									"value": "activa",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/reservas/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reservas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ajuste reserva",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "importe",
+									"value": "100000",
+									"type": "text"
+								},
+								{
+									"key": "motivo",
+									"value": "Vuelve valor anterior",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/reservas/1/ajuste",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reservas",
+								"1",
+								"ajuste"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar reserva",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/reservas/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reservas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancelar reserva",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nro_cliente",
+									"value": "100000",
+									"type": "text"
+								},
+								{
+									"key": "tipo_cliente",
+									"value": "indi",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/reservas/2/cancelar",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reservas",
+								"2",
+								"cancelar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Autenticacion",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json()['token'];\r",
+									"pm.environment.set(\"token\", jsonData);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "usuario",
+									"value": "test5",
+									"type": "text"
+								},
+								{
+									"key": "clave",
+									"value": "test5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/login/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CSV",
+			"item": [
+				{
+					"name": "Descargar entidades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/csv/descargar?entidad=clientes",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"csv",
+								"descargar"
+							],
+							"query": [
+								{
+									"key": "entidad",
+									"value": "clientes"
+								},
+								{
+									"key": "entidad",
+									"value": "reservas",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cargar entidades",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "archivo",
+									"type": "file",
+									"src": "/C:/xampp/htdocs/progra_3/Parciales/SP_Julian_Fernandez/cargar_clientes.csv",
+									"disabled": true
+								},
+								{
+									"key": "archivo",
+									"type": "file",
+									"src": "/C:/xampp/htdocs/progra_3/Parciales/SP_Julian_Fernandez/cargar_reservas.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/csv/cargar?entidad=reservas",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"csv",
+								"cargar"
+							],
+							"query": [
+								{
+									"key": "entidad",
+									"value": "clientes",
+									"disabled": true
+								},
+								{
+									"key": "entidad",
+									"value": "reservas"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JSON",
+			"item": [
+				{
+					"name": "Descargar entidades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/json/descargar?entidad=reservas",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"json",
+								"descargar"
+							],
+							"query": [
+								{
+									"key": "entidad",
+									"value": "clientes",
+									"disabled": true
+								},
+								{
+									"key": "entidad",
+									"value": "reservas"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cargar entidades",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "archivo",
+									"type": "file",
+									"src": "/C:/xampp/htdocs/progra_3/Parciales/SP_Julian_Fernandez/cargar_clientes.json",
+									"disabled": true
+								},
+								{
+									"key": "archivo",
+									"type": "file",
+									"src": "/C:/xampp/htdocs/progra_3/Parciales/SP_Julian_Fernandez/cargar_reservas.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/json/cargar?entidad=reservas",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"json",
+								"cargar"
+							],
+							"query": [
+								{
+									"key": "entidad",
+									"value": "reservas"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "main",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
