@@ -114,6 +114,14 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
     $group->delete('/{reserva}', \ReservaController::class . ':BorrarUno');
     //     ->add($borrarUno)
     //     ->add(\AuthMiddleware::class . ':verificarToken');
+
+    $group->post('/{reserva}/cancelar', \ReservaController::class . ':CancelarUno');
+    //     ->add($modificarUno)
+    //     ->add(\AuthMiddleware::class . ':verificarToken');
+
+    $group->post('/{reserva}/ajuste', \ReservaController::class . ':AjustarUno');
+    //     ->add($modificarUno)
+    //     ->add(\AuthMiddleware::class . ':verificarToken');
 });
 // $app->group('/usuarios', function (RouteCollectorProxy $group) {
 //     $traerTodos = new AuthMiddleware();

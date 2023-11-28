@@ -32,6 +32,7 @@ class CamposReservaMW
             $this->validarNumero($parametros['nro_cliente']);
             $this->validarNumero($parametros['importe_total']);
             $this->validarTipoCliente($parametros['tipo_cliente']);
+            $this->validarTipoHabitacion($parametros['tipo_habitacion']);
             $this->validarFormatoFecha($parametros['fecha_entrada']);
             $this->validarFormatoFecha($parametros['fecha_salida']);
             $response = $handler->handle($request);
@@ -48,6 +49,13 @@ class CamposReservaMW
     {
         if (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $strDate)) {
             throw new Exception("Los formatos fecha no coinciden. Formato valido: 'yyyy-dd-mm'");
+        }
+    }
+    private function validarTipoHabitacion($tipoHabitacion){
+        if (strtoupper($tipoHabitacion) != 'SIMPLE' 
+            && strtoupper($tipoHabitacion) != 'DOBLE'
+            && strtoupper($tipoHabitacion) != 'SUITE') {
+            throw new Exception("El tipo de habitacion solo puede ser SIMPLE, DOBLE o SUITE");
         }
     }
     private function validarTipoCliente($tipoCliente){

@@ -30,13 +30,23 @@ class Cliente /* implements JsonSerializable */ {
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Cliente');
     }
 
-    public static function obtenerClienteExistente($email)
+    public static function obtenerClienteExistente($nro_doc)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM clientes
-            WHERE email = :email 
+            WHERE nro_doc = :nro_doc 
                 AND fecha_baja IS NULL");
-        $consulta->bindValue(':email', $email, PDO::PARAM_STR);
+        $consulta->bindValue(':nro_doc', $nro_doc, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchObject('Cliente');
+    }
+
+    public static function obtenerUltimoCliente()
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM clientes
+            ORDER BY id DESC LIMIT 1");
         $consulta->execute();
 
         return $consulta->fetchObject('Cliente');
@@ -50,7 +60,7 @@ class Cliente /* implements JsonSerializable */ {
     //     return $consulta->fetchAll(PDO::FETCH_ASSOC);
     // }
 
-    public static function obtenerCliente($id)
+    public static function obtenerClientePorId($id)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM clientes 
@@ -143,6 +153,17 @@ class Cliente /* implements JsonSerializable */ {
         $consulta->bindValue(':modalidad_pago', $this->_modalidadPago, PDO::PARAM_STR);
         $consulta->bindValue(':id', $this->_id, PDO::PARAM_INT);
         $consulta->execute();
+    }
+
+    public static function moverFoto($path, $pathOrigen, $fotoUsuario)
+    {
+        try {
+            $fileController = new FileController($path);
+            $pathOrigen .= $fotoUsuario;
+            $fileController->moveImage($fotoUsuario, $pathOrigen);
+        } catch (Exception $err){
+            throw $err;
+        }
     }
 
     public static function borrarUsuario($id)

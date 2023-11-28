@@ -58,6 +58,14 @@ class Reserva /* implements JsonSerializable */ {
         return $consulta->fetchObject('Reserva');
     }
 
+    public static function obtenerReservaPersonalizado($query)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta($query);
+        $consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
+    }
+
     // public static function obtenerUsuarioDisponible($id)
     // {
     //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
@@ -91,17 +99,19 @@ class Reserva /* implements JsonSerializable */ {
 
     public function modificarReserva($externo = false)
     {
-        // if ($externo){
-        //     $this->_id = $this->{'id'};
-        //     $this->_usuario = $this->{'usuario'};
-        //     $this->_clave = $this->{'clave'};
-        //     $this->_nombre = $this->{'nombre'};
-        //     $this->_apellido = $this->{'apellido'};
-        //     $this->_correo = $this->{'correo'};
-        //     $this->_idSector = $this->{'id_sector'};
-        //     $this->_prioridad = $this->{'prioridad'};
-        //     $this->_estado = $this->{'estado'};
-        // }
+        if ($externo){
+            $this->_id = $this->{'id'};
+            $this->_tipoCliente = $this->{'tipo_cliente'};
+            $this->_nroCliente = $this->{'nro_cliente'};
+            $this->_fechaEntrada = new DateTime(date('d-m-Y', 
+                strtotime($this->{'fecha_entrada'})));
+            $this->_fechaSalida = new DateTime(date('d-m-Y',
+                strtotime($this->{'fecha_salida'})));
+            $this->_tipoHabitacion = $this->{'tipo_habitacion'};
+            $this->_importeTotal = $this->{'importe_total'};
+            $this->_modalidadPago = $this->{'modalidad_pago'};
+            $this->_estado = $this->{'estado'};
+        }
         $objAccesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDato->prepararConsulta("UPDATE reservas 
             SET tipo_cliente = :tipo_cliente,
@@ -128,10 +138,14 @@ class Reserva /* implements JsonSerializable */ {
     public static function borrarReserva($id)
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDato->prepararConsulta("UPDATE reservas SET fecha_baja = :fecha_baja WHERE id = :id");
+        $consulta = $objAccesoDato->prepararConsulta("UPDATE reservas 
+            SET fecha_baja = :fecha_baja,
+                estado = :estado
+            WHERE id = :id");
         $fecha = new DateTime(date("d-m-Y"));
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->bindValue(':fecha_baja', date_format($fecha, 'Y-m-d H:i:s'));
+        $consulta->bindValue(':estado', 'cancelada');
         $consulta->execute();
     }
 

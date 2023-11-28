@@ -35,5 +35,17 @@ class FileController
         }
         return $file;
     }
+
+    public function moveImage($nameImg, $pathOrigen)
+    {
+        try {
+            $pathDestino = $this->path . $nameImg;
+            if (!rename($pathOrigen, $pathDestino)) {
+                throw new Exception('Ocurrio algun error al mover la imagen');
+            }
+        } catch (Exception $err){
+            throw $err;
+        }
+    }
 }
 ?>
